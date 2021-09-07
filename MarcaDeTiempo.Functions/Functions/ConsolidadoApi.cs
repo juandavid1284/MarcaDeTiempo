@@ -17,13 +17,12 @@ namespace MarcaDeTiempo.Functions.Functions
     {
         [FunctionName(nameof(ObtenerConsolidadoSegunFecha))]
         public static async Task<IActionResult> ObtenerConsolidadoSegunFecha(
-            [HttpTrigger(AuthorizationLevel.Anonymous, methods: new string[] { "get" }, Route = "consolidadosSegunFecha/?dia={dia}&mes={mes}&year={year}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, methods: "post", Route = "consolidadosSegunFecha")] HttpRequest req,
             [Table("consolidado", Connection = "AzureWebJobsStorage")] CloudTable consolidadoTable,
-            int dia, int mes, int year,
             ILogger log)
         {
-            
-            DateTime fechaHoy = new DateTime(dia, mes, year);
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            DateTime fechaHoy = JsonConvert.DeserializeObject<DateTime>(requestBody);
             log.LogInformation($"Se va a obtener los consolidados del dia: {fechaHoy}");
 
             // Validar registro existente segun fecha
