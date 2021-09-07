@@ -17,8 +17,8 @@ namespace MarcaDeTiempo.Functions.Functions
     {
         [FunctionName(nameof(SheduleConsolidado))]
         public static async Task SheduleConsolidado(
-            //SE EJECUTA CADA 10 MINUTOS
-            [TimerTrigger("0 */10 * * * *")] TimerInfo miCronometro,
+            //SE EJECUTA CADA 5 MINUTOS
+            [TimerTrigger("0 */5 * * * *")] TimerInfo miCronometro,
             [Table("registro", Connection = "AzureWebJobsStorage")] CloudTable registroTable,
             [Table("consolidado", Connection = "AzureWebJobsStorage")] CloudTable consolidadoTable,
             ILogger log)
